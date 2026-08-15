@@ -1,6 +1,6 @@
 import { HardDrive, FolderSearch } from "lucide-react"
 
-const FORMATS = [".sql", ".db", ".sqlite", ".dbf", ".csv", ".json"]
+const FORMATS = [".dbs", ".xml", ".xhtml"]
 
 export default function DropZone() {
   return (

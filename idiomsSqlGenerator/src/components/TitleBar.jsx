@@ -9,7 +9,7 @@ export default function TitleBar({ theme, onToggleTheme }) {
         <span className="dot" />
         <span className="dot" />
       </div>
-      <span className="title">~/dbs-gen $ ./run</span>
+      <span className="title">~/i-bridge $ ./run</span>
       <button
         type="button"
         className="theme-toggle"

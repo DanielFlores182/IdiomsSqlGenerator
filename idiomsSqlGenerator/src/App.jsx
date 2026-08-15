@@ -21,12 +21,12 @@ export default function App() {
 
       <div className="headline">
         <h1>
-          DBS
+          IDIOMS
           <br />
-          GEN
+          BRIDGE
         </h1>
         <p className="blurb">
-          browse a database format file, run the generator, and get a plain text result. rough, fast, offline.
+          browse a dbschema format project file, run the generator, and get a plain-text output you can run in PostgreSQL grounded with Idioms. Rough. Fast. Offline. Theory-backed.
         </p>
       </div>
 
@@ -43,7 +43,7 @@ export default function App() {
       <InfoSection />
 
       <p className="footer mono-caps">
-        dbs-gen v1.0 · {theme === "dark" ? "grey-amber build" : "matcha-light build"} · press [enter] to run
+        i-bridge v1.0 · {theme === "dark" ? "grey-amber build" : "matcha-light build"} · press [enter] to run
       </p>
     </main>
   )
