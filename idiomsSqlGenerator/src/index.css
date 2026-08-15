@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap");
+
+:root,
+[data-theme="light"] {
+  /* matcha-light console palette */
+  --bg: #e4ead4;
+  --surface: #eef2e3;
+  --ink: #283019;
+  --matcha: #6f8f36;
+  --matcha-deep: #4d6a24;
+
+  /* terminal bars + console screen */
+  --term-bg: #283019;
+  --term-fg: #e4ead4;
+  --screen-bg: #eef2e3;
+  --screen-fg: #283019;
+  --accent: #6f8f36;
+
+  --scanline: rgba(40, 48, 25, 0.04);
+
+  --border-w: 3px;
+  --shadow: 6px 6px 0 0 var(--ink);
+  --shadow-sm: 3px 3px 0 0 var(--ink);
+  --font: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+[data-theme="dark"] {
+  /* grey + matcha with amber console glow */
+  --bg: #1c1f18;
+  --surface: #262a20;
+  --ink: #cfd8bd;
+  --matcha: #9cbd57;
+  --matcha-deep: #7f9e3f;
+
+  --term-bg: #0f110b;
+  --term-fg: #e6b04a;
+  --screen-bg: #12140d;
+  --screen-fg: #e6b04a;
+  --accent: #e6b04a;
+
+  --scanline: rgba(230, 176, 74, 0.05);
+
+  --shadow: 6px 6px 0 0 #000;
+  --shadow-sm: 3px 3px 0 0 #000;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background-color: var(--bg);
+  /* subtle scanline texture for the retro console feel */
+  background-image: repeating-linear-gradient(
+    0deg,
+    var(--scanline) 0px,
+    var(--scanline) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  line-height: 1.5;
+  -webkit-font-smoothing: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+::selection {
+  background: var(--matcha);
+  color: var(--surface);
+}
+
+button {
+  font-family: var(--font);
+  cursor: pointer;
+}
+
+/* ---- brutalist primitives ---- */
+.panel {
+  background: var(--surface);
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.tag {
+  display: inline-block;
+  border: var(--border-w) solid var(--ink);
+  background: var(--matcha);
+  color: var(--surface);
+  padding: 2px 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+.mono-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
