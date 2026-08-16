@@ -16,7 +16,6 @@ export async function parseDBSFile(file) {
     throw new Error("El archivo contiene un XML no válido.");
   }
 
-  // 3. Extraemos la información
   const tables = xmlDoc.getElementsByTagName("table");
   const tableCount = tables.length;
   
