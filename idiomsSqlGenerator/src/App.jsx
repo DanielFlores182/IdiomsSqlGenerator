@@ -78,7 +78,7 @@ export default function App() {
       <InfoSection />
 
       <p className="footer mono-caps">
-        i-bridge v1.0 · {theme === "dark" ? "grey-amber build" : "matcha-light build"} · press [enter] to run
+        i-bridge v1.0 · {theme === "dark" ? "grey-amber build" : "matcha-light build"} · designed for fast concept implementation
       </p>
     </main>
   )
