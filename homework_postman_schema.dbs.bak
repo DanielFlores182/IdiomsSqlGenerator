@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="TBDtemplates" database="LogicalDesign" id="93299b8d-e517-4823-a8bb-6ced39d5420f" >
+	<schema name="TBD_homework_postPage" >
+		<table name="Entity" />
+		<table name="Entity_0" />
+		<table name="archivo" prior="archiv" >
+			<column name="id_archivo" type="INT" mandatory="y" />
+			<column name="publicacion_id_publicacion" prior="id_publicacion" type="INT" mandatory="y" />
+			<column name="publicacion_id_contacto_adm" prior="id_contacto_adm" type="INT" mandatory="y" />
+			<column name="publicacion_fecha" prior="fecha" type="INT" mandatory="y" />
+			<column name="id_tipo_archivo" type="INT" mandatory="y" />
+			<column name="contenido" type="BINARY" mandatory="y" />
+			<index name="pk_archivo" unique="PRIMARY_KEY" >
+				<column name="id_archivo" />
+				<column name="publicacion_id_publicacion" />
+				<column name="publicacion_id_contacto_adm" />
+				<column name="publicacion_fecha" />
+			</index>
+			<fk name="fk_archivo_publicacion" to_schema="TBD_homework_postPage" to_table="publicacion" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="publicacion_id_publicacion" pk="id_publicacion" />
+				<fk_column name="publicacion_id_contacto_adm" pk="id_contacto_adm" />
+				<fk_column name="publicacion_fecha" pk="fecha" />
+			</fk>
+			<fk name="fk_archivo_tipo_archivo" to_schema="TBD_homework_postPage" to_table="tipo_archivo" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="id_tipo_archivo" pk="id_tipo_archivo" />
+			</fk>
+		</table>
+		<table name="contacto_admin" prior="contacto_admi" >
+			<column name="user_n_id_contacto" prior="userN_id_contacto" type="INT" mandatory="y" />
+			<index name="pk_contacto_admin" unique="PRIMARY_KEY" >
+				<column name="user_n_id_contacto" />
+			</index>
+			<fk name="fk_contacto_admin_userN" to_schema="TBD_homework_postPage" to_table="user_n" type="Identifying" mandatory="y" cardinality="ZeroOne" range_from="0" range_to="0" >
+				<fk_column name="user_n_id_contacto" pk="id_contacto" />
+			</fk>
+		</table>
+		<table name="contacto_estudainte" prior="contacto_estudaint" >
+			<column name="user_n_id_contacto" prior="userN_id_contacto" type="INT" mandatory="y" />
+			<index name="pk_contacto_estudainte" unique="PRIMARY_KEY" >
+				<column name="user_n_id_contacto" />
+			</index>
+			<fk name="fk_contacto_estudainte_userN" to_schema="TBD_homework_postPage" to_table="user_n" type="NonIdentifying" mandatory="y" cardinality="ZeroOne" range_from="0" range_to="0" >
+				<fk_column name="user_n_id_contacto" pk="id_contacto" />
+			</fk>
+		</table>
+		<table name="publicacion" prior="Publicacion" >
+			<column name="id_publicacion" type="INT" mandatory="y" />
+			<column name="id_contacto_adm" prior="id_contacto" type="INT" mandatory="y" />
+			<column name="fecha" type="DATETIME" mandatory="y" />
+			<column name="id_tipo_publicacion" type="INT" mandatory="y" />
+			<column name="descripcion" type="VARCHAR" />
+			<column name="id_contacto_estudiante" type="INT" mandatory="y" />
+			<index name="pk_Publicacion" unique="PRIMARY_KEY" >
+				<column name="id_publicacion" />
+				<column name="id_contacto_adm" />
+				<column name="fecha" />
+			</index>
+			<index name="unq_descripcion" unique="UNIQUE_INDEX" >
+				<column name="descripcion" />
+			</index>
+			<index name="unq_Publicacion_descripcion" unique="UNIQUE_KEY" >
+				<column name="descripcion" />
+			</index>
+			<fk name="fk_Publicacion_contacto_admin" to_schema="TBD_homework_postPage" to_table="contacto_admin" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="id_contacto_adm" pk="user_n_id_contacto" />
+			</fk>
+			<fk name="fk_Publicacion_tipo_publicacion" to_schema="TBD_homework_postPage" to_table="tipo_publicacion" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="id_tipo_publicacion" pk="id_tipo" />
+			</fk>
+		</table>
+		<table name="tarea" prior="tare" >
+			<column name="id_contacto_estu" prior="id_contacto_estudiante" type="INT" mandatory="y" />
+			<column name="publicacion_id_publicacion" prior="id_publicacion" type="INT" mandatory="y" />
+			<column name="publicacion_id_contacto_adm" prior="id_contacto_adm" type="INT" mandatory="y" />
+			<column name="publicacion_fecha" prior="fecha" type="INT" mandatory="y" />
+			<column name="fecha_entrega" type="DATETIME" length="9999999" mandatory="y" />
+			<index name="pk_tarea" unique="PRIMARY_KEY" >
+				<column name="id_contacto_estu" />
+				<column name="publicacion_id_publicacion" />
+				<column name="publicacion_fecha" />
+				<column name="publicacion_id_contacto_adm" />
+			</index>
+			<fk name="fk_tarea_Publicacion" to_schema="TBD_homework_postPage" to_table="publicacion" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="publicacion_id_publicacion" pk="id_publicacion" />
+				<fk_column name="publicacion_id_contacto_adm" pk="id_contacto_adm" />
+				<fk_column name="publicacion_fecha" pk="fecha" />
+			</fk>
+			<fk name="fk_tarea_contacto_estudainte" to_schema="TBD_homework_postPage" to_table="contacto_estudainte" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="id_contacto_estu" pk="user_n_id_contacto" />
+			</fk>
+		</table>
+		<table name="tipo_archivo" prior="tipo_archiv" >
+			<column name="id_tipo_archivo" type="INT" mandatory="y" />
+			<column name="formato" type="VARCHAR" mandatory="y" />
+			<index name="pk_tipo_archivo" unique="PRIMARY_KEY" >
+				<column name="id_tipo_archivo" />
+			</index>
+		</table>
+		<table name="tipo_publicacion" prior="tipo_publicacio" >
+			<column name="id_tipo" type="INT" mandatory="y" />
+			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
+			<column name="descripcion" type="VARCHAR" length="9999999" mandatory="y" />
+			<index name="pk_tipo_publicacion" unique="PRIMARY_KEY" >
+				<column name="id_tipo" />
+			</index>
+		</table>
+		<table name="user_n" prior="userN" >
+			<column name="id_contacto" type="INT" mandatory="y" />
+			<column name="nombre" type="VARCHAR" mandatory="y" />
+			<column name="datos" type="VARCHAR" mandatory="y" />
+			<column name="passwordkey" type="VARCHAR" mandatory="y" />
+			<index name="pk_uresN" unique="PRIMARY_KEY" >
+				<column name="id_contacto" />
+			</index>
+		</table>
+	</schema>
+	<diagram_group name="Default" id="4e92ed31-d3ee-4e27-904e-28f7e4789182" >
+		<diagram name="Default Diagram" id="313e492e-4df7-43fd-99ed-34b4d4ee53c9" show_relation="columns" >
+			<callout x="57" y="57" pointer="Round" >
+				<comment><![CDATA[- Create new entities by right-clicking the diagram. 
+- Double-click entity headers to edit.
+- Get a better understanding of the schema by creating multiple diagrams.
+- Convert the logical design to physical design and deploy it into the database.]]></comment>
+			</callout>
+		</diagram>
+		<diagram name="Diagram_homework_postPage" id="c0399b44-b161-4303-8151-5d0f0bf8c370" show_relation="cascade" >
+			<entity schema="TBD_homework_postPage" name="archivo" color="C1D8EE" x="950" y="380" />
+			<entity schema="TBD_homework_postPage" name="contacto_admin" color="C1D8EE" x="418" y="76" />
+			<entity schema="TBD_homework_postPage" name="contacto_estudainte" color="C1D8EE" x="304" y="209" />
+			<entity schema="TBD_homework_postPage" name="publicacion" color="C1D8EE" x="722" y="171" />
+			<entity schema="TBD_homework_postPage" name="tarea" color="C1D8EE" x="380" y="380" />
+			<entity schema="TBD_homework_postPage" name="tipo_archivo" color="C1D8EE" x="1311" y="342" />
+			<entity schema="TBD_homework_postPage" name="tipo_publicacion" color="C1D8EE" x="1178" y="152" />
+			<entity schema="TBD_homework_postPage" name="user_n" color="C1D8EE" x="57" y="57" />
+		</diagram>
+	</diagram_group>
+</project>

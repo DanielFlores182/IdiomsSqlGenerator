@@ -4,16 +4,45 @@ import TitleBar from "./components/TitleBar.jsx"
 import DropZone from "./components/DropZone.jsx"
 import OutputConsole from "./components/OutputConsole.jsx"
 import InfoSection from "./components/InfoSection.jsx"
+import { parseDBSFile } from "./utils/dbsParser.js" // <-- Importamos nuestra lógica
 import "./App.css"
 
 export default function App() {
   const [theme, setTheme] = useState("light")
+  
+  const [file, setFile] = useState(null)
+  const [output, setOutput] = useState("")
+  const [isGenerating, setIsGenerating] = useState(false)
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme)
   }, [theme])
 
   const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"))
+
+  const handleGenerate = async () => {
+    if (!file) {
+      alert("Por favor, selecciona un archivo .dbs primero en la zona de drop.")
+      return
+    }
+
+    setIsGenerating(true)
+    setOutput("> parsing schema ................\n> generating output.txt ......... running")
+
+    try {
+      const resultLog = await parseDBSFile(file)
+      
+      //retraso para el efecto visual de la consola
+      setTimeout(() => {
+        setOutput(resultLog)
+        setIsGenerating(false)
+      }, 600)
+
+    } catch (error) {
+      setOutput(`> parsing schema ................ ERROR\n// Error details: ${error.message}`)
+      setIsGenerating(false)
+    }
+  }
 
   return (
     <main className="app">
@@ -31,13 +60,19 @@ export default function App() {
       </div>
 
       <div className="grid">
-        <DropZone />
-        <OutputConsole />
+        <DropZone onFile={setFile} />
+        <OutputConsole output={output} />
       </div>
 
-      <button type="button" className="btn primary block" style={{ fontSize: 16, padding: "16px" }}>
+      <button 
+        type="button" 
+        className="btn primary block" 
+        style={{ fontSize: 16, padding: "16px" }}
+        onClick={handleGenerate}
+        disabled={isGenerating}
+      >
         <Zap size={20} aria-hidden="true" />
-        generate result
+        {isGenerating ? "generating..." : "generate result"}
       </button>
 
       <InfoSection />
