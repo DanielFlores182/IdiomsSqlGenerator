@@ -88,14 +88,14 @@
 				<column name="id_piloto" />
 				<column name="id_copiloto" />
 			</index>
-			<fk name="fk_h_piloto_pilto" to_schema="TBD_homework_postPage" to_table="pilto" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_h_piloto_pilto" to_schema="TBD_homework_postPage" to_table="piloto" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
 				<fk_column name="id_piloto" pk="id_piloto" />
 			</fk>
-			<fk name="fk_h_piloto_pilto_0" to_schema="TBD_homework_postPage" to_table="pilto" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_h_piloto_pilto_0" to_schema="TBD_homework_postPage" to_table="piloto" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
 				<fk_column name="id_copiloto" pk="id_piloto" />
 			</fk>
 		</table>
-		<table name="pilto" prior="pilt" >
+		<table name="piloto" prior="pilto" >
 			<column name="id_piloto" type="INT" mandatory="y" />
 			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
 			<index name="pk_pilto" unique="PRIMARY_KEY" >
@@ -297,7 +297,7 @@
 			<entity schema="TBD_homework_postPage" name="funcion_ui" color="C1D8EE" x="855" y="646" />
 			<entity schema="TBD_homework_postPage" name="funciones_rol" color="C1D8EE" x="399" y="646" />
 			<entity schema="TBD_homework_postPage" name="h_piloto" color="C1D8EE" x="1463" y="551" />
-			<entity schema="TBD_homework_postPage" name="pilto" color="C1D8EE" x="1197" y="551" />
+			<entity schema="TBD_homework_postPage" name="piloto" color="C1D8EE" x="1197" y="551" />
 			<entity schema="TBD_homework_postPage" name="proveedor_cloud" color="C1D8EE" x="684" y="513" />
 			<entity schema="TBD_homework_postPage" name="publicacion" color="C1D8EE" x="646" y="57" />
 			<entity schema="TBD_homework_postPage" name="rol" color="C1D8EE" x="152" y="627" />
