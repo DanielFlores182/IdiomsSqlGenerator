@@ -95,6 +95,7 @@
 				<fk_column name="id_copiloto" pk="id_piloto" />
 			</fk>
 		</table>
+		<table name="persona" prior="perso" />
 		<table name="piloto" prior="pilto" >
 			<column name="id_piloto" type="INT" mandatory="y" />
 			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
@@ -297,6 +298,7 @@
 			<entity schema="TBD_homework_postPage" name="funcion_ui" color="C1D8EE" x="855" y="646" />
 			<entity schema="TBD_homework_postPage" name="funciones_rol" color="C1D8EE" x="399" y="646" />
 			<entity schema="TBD_homework_postPage" name="h_piloto" color="C1D8EE" x="1463" y="551" />
+			<entity schema="TBD_homework_postPage" name="persona" color="C1D8EE" x="1159" y="76" />
 			<entity schema="TBD_homework_postPage" name="piloto" color="C1D8EE" x="1197" y="551" />
 			<entity schema="TBD_homework_postPage" name="proveedor_cloud" color="C1D8EE" x="684" y="513" />
 			<entity schema="TBD_homework_postPage" name="publicacion" color="C1D8EE" x="646" y="57" />

@@ -104,3 +104,17 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
+
+/* ---- Highlight Keywords (Console) ---- */
+/* Por defecto (Light mode): Azul claro */
+.kw-rel {
+  color: #0061c8; /* Azul */
+  font-weight: 800;
+}
+
+/* Modo oscuro: Morado */
+/* Ajusta ".dark" al nombre de clase que use tu theme-toggle */
+body.dark .kw-rel,
+[data-theme="dark"] .kw-rel {
+  color: #8667bc; /* Morado claro/neón para que contraste en fondo oscuro */
+}

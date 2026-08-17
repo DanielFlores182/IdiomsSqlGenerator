@@ -39,7 +39,7 @@ export async function parseDBSFile(file) {
     
     outboundFkCounts[tableName] = fks.length;
     
-    const identifyingMultiTargets = [];
+    const identifyingMultiRelations = [];
     
     Array.from(fks).forEach(fk => {
       const type = fk.getAttribute("type");
@@ -56,7 +56,7 @@ export async function parseDBSFile(file) {
         mandatory === "y" && 
         (cardinality === "ZeroOne" || cardinality === "One")
       ) {
-        is_a.push(`  - ${tableName} is_a ${toTable}`);
+        is_a.push(`  - ${tableName} is_a_ ${toTable}`);
       }
 
       // Validaciones classifiers
@@ -75,7 +75,7 @@ export async function parseDBSFile(file) {
         (mandatory === "y" || mandatory === "n") && 
         (cardinality === "ZeroOne" || cardinality === "One" || cardinality === "ZeroMore" || cardinality === "OneMore")
       ) {
-        reflexives.push(`  - ${tableName} is reflexive`);
+        reflexives.push(`  - ${tableName} is_reflexive`);
       }
 
       // Filtrado de las fks que cumplen la regla específica para master_detail, composition e historical_reflexive
@@ -84,23 +84,23 @@ export async function parseDBSFile(file) {
         mandatory === "y" && 
         (cardinality === "ZeroMore" || cardinality === "OneMore")
       ) {
-        identifyingMultiTargets.push(toTable);
+        identifyingMultiRelations.push(toTable);
       }
     });
 
     // Contamos cuántas veces se repite cada to_table en esta entidad
     const targetCounts = {};
-    identifyingMultiTargets.forEach(t => {
+    identifyingMultiRelations.forEach(t => {
       targetCounts[t] = (targetCounts[t] || 0) + 1;
     });
 
     const remainingTargets = [];
 
-    // Separamos los que son históricos de los que son relaciones (master_detail / composition)
+    // Separamos los que son reflexivos históricos de los que son relaciones (master_detail / composition)
     for (const [target, count] of Object.entries(targetCounts)) {
       if (count >= 2) {
         // Si hay 2 o más FKs apuntando a la misma tabla con estas reglas, es historical_reflexive
-        historicalReflexives.push(`  - ${target} is historical_reflexive with ${tableName}`);
+        historicalReflexives.push(`  - ${target} is_historical_reflexive_with ${tableName}`);
       } else {
         remainingTargets.push(target);
       }
@@ -117,7 +117,7 @@ export async function parseDBSFile(file) {
   Array.from(tables).forEach(table => {
     const tableName = table.getAttribute("name");
     if (outboundFkCounts[tableName] === 0 && !allReferencedTables.has(tableName)) {
-      basics.push(`  - ${tableName} is basic`);
+      basics.push(`  - ${tableName} is_basic`);
     }
   });
 

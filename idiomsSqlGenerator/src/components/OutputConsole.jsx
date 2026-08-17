@@ -7,11 +7,35 @@ const SAMPLE = `> parsing schema ................ no schema
 // output will appear here after you
 // run the generator on a .dbs file
 `
+const escapeHtml = (text) => {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
+
+const getHighlightedText = (text) => {
+  if (!text) return { __html: "" };
+
+  let safeText = escapeHtml(text);
+
+  let html = safeText
+    .replace(/(classified_by)/g, '<span class="kw-rel">$1</span>')
+    .replace(/\b(is_a_)\b/g, '<span class="kw-rel">$1</span>')
+    .replace(/(detail_of)/g, '<span class="kw-rel">$1</span>')
+    .replace(/(composed_by)/g, '<span class="kw-rel">$1</span>')
+    .replace(/\b(is_historical_reflexive_with)\b/g, '<span class="kw-rel">$1</span>')
+    .replace(/\b(is_reflexive)\b/g, '<span class="kw-rel">$1</span>')
+    .replace(/\b(is_basic)\b/g, '<span class="kw-rel">$1</span>');
+
+  return { __html: html };
+};
 
 export default function OutputConsole({ output }) {
 
   const displayContent = output || SAMPLE;
-
 
   const handleDownload = () => {
     if (!output) return;
@@ -37,7 +61,7 @@ export default function OutputConsole({ output }) {
       </div>
       
       <pre>
-        {displayContent}
+        <span dangerouslySetInnerHTML={getHighlightedText(displayContent)} />
         <span className="caret" aria-hidden="true" />
       </pre>
       
