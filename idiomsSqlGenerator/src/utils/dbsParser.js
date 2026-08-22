@@ -1,7 +1,7 @@
 /**
  * Procesa un archivo .dbs (XML) y cuenta las tablas, is_a, classifiers, master_detail, composition, reflexives, historical_reflexives y basics.
  * @param {File} file - El archivo a procesar
- * @returns {Promise<string>} - El texto de salida formateado para la consola
+ * @returns {Promise<{ report: string, jsonData: object }>} - Retorna el texto para la consola y el JSON estructurado
  */
 export async function parseDBSFile(file) {
   if (!file) throw new Error("No hay archivo para analizar.");
@@ -28,12 +28,30 @@ export async function parseDBSFile(file) {
   const historicalReflexives = [];
   const basics = []; 
 
+  // --- NUEVO: Objeto JSON estructurado para tu idiomsCoreMapper.js ---
+  const jsonData = {
+    entities: [],
+    idioms: {
+      basics: [],
+      is_a: [],
+      classifiers: [],
+      master_detail: [],
+      composition: [],
+      reflexives: [],
+      historical_reflexives: []
+    }
+  };
+  // ------------------------------------------------------------------
+
   const allReferencedTables = new Set();
   const outboundFkCounts = {};
 
   Array.from(tables).forEach((table, index) => {
     const tableName = table.getAttribute("name");
     tableNames.push(`  ${index + 1}. ${tableName}`);
+    
+    // Registramos la entidad en el JSON
+    jsonData.entities.push(tableName);
     
     const fks = table.getElementsByTagName("fk");
     
@@ -47,7 +65,6 @@ export async function parseDBSFile(file) {
       const cardinality = fk.getAttribute("cardinality");
       const toTable = fk.getAttribute("to_table");
       
-      
       allReferencedTables.add(toTable);
 
       // Validaciones is_a
@@ -57,6 +74,7 @@ export async function parseDBSFile(file) {
         (cardinality === "ZeroOne" || cardinality === "One")
       ) {
         is_a.push(`  - ${tableName} is_a_ ${toTable}`);
+        jsonData.idioms.is_a.push({ weak: tableName, strong: toTable });
       }
 
       // Validaciones classifiers
@@ -66,6 +84,7 @@ export async function parseDBSFile(file) {
         toTable !== tableName // evitar contar reflexives
       ) {
         classifiers.push(`  - ${tableName} classified_by ${toTable}`);
+        jsonData.idioms.classifiers.push({ weak: tableName, strong: toTable });
       }
 
       // Validaciones reflexives
@@ -76,6 +95,7 @@ export async function parseDBSFile(file) {
         (cardinality === "ZeroOne" || cardinality === "One" || cardinality === "ZeroMore" || cardinality === "OneMore")
       ) {
         reflexives.push(`  - ${tableName} is_reflexive`);
+        jsonData.idioms.reflexives.push(tableName); // Solo requiere el nombre
       }
 
       // Filtrado de las fks que cumplen la regla específica para master_detail, composition e historical_reflexive
@@ -101,6 +121,7 @@ export async function parseDBSFile(file) {
       if (count >= 2) {
         // Si hay 2 o más FKs apuntando a la misma tabla con estas reglas, es historical_reflexive
         historicalReflexives.push(`  - ${target} is_historical_reflexive_with ${tableName}`);
+        jsonData.idioms.historical_reflexives.push({ weak: tableName, strong: target });
       } else {
         remainingTargets.push(target);
       }
@@ -108,9 +129,11 @@ export async function parseDBSFile(file) {
    
     if (remainingTargets.length === 1) {
       masterDetail.push(`  - ${tableName} detail_of ${remainingTargets[0]}`);
+      jsonData.idioms.master_detail.push({ weak: tableName, strong: remainingTargets[0] });
     } else if (remainingTargets.length >= 2) {
       const targetsString = remainingTargets.join(", ");
       composition.push(`  - ${tableName} composed_by (${targetsString})`);
+      jsonData.idioms.composition.push({ weak: tableName, strong: remainingTargets }); // strong será un array
     }
   });
 
@@ -118,6 +141,7 @@ export async function parseDBSFile(file) {
     const tableName = table.getAttribute("name");
     if (outboundFkCounts[tableName] === 0 && !allReferencedTables.has(tableName)) {
       basics.push(`  - ${tableName} is_basic`);
+      jsonData.idioms.basics.push(tableName); // Solo requiere el nombre
     }
   });
 
@@ -158,7 +182,8 @@ export async function parseDBSFile(file) {
     ? `\n// Found ${historicalReflexivesCount} historical_reflexive idioms in the database:\n${historicalReflexives.join('\n')}` 
     : "";
   
-  return `> parsing schema ................. ok
+  // Guardamos el string en una variable report
+  const report = `> parsing schema ................. ok
 > entitys detected ............... ${tableCount.toString().padStart(2, '0')}
 > basics detected ................ ${basicsCount.toString().padStart(2, '0')}
 > is_a detected .................. ${is_aCount.toString().padStart(2, '0')}
@@ -180,4 +205,7 @@ ${compositionLog}
 ${reflexivesLog}
 ${historicalReflexivesLog}
 `;
+
+  // --- Retornamos ambos valores ---
+  return { report, jsonData };
 }

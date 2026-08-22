@@ -5,7 +5,7 @@
 			<column name="id_archivo" type="INT" mandatory="y" />
 			<column name="publicacion_id_publicacion" prior="id_publicacion" type="INT" mandatory="y" />
 			<column name="publicacion_id_contacto_adm" prior="id_contacto_adm" type="INT" mandatory="y" />
-			<column name="publicacion_fecha" prior="fecha" type="INT" mandatory="y" />
+			<column name="publicacion_fecha" prior="fecha" type="DATETIME" mandatory="y" />
 			<column name="id_tipo_archivo" type="INT" mandatory="y" />
 			<column name="contenido" type="BINARY" mandatory="y" />
 			<index name="pk_archivo" unique="PRIMARY_KEY" >
@@ -177,7 +177,7 @@
 			<column name="id_contacto_estu" prior="id_contacto_estudiante" type="INT" mandatory="y" />
 			<column name="publicacion_id_publicacion" prior="id_publicacion" type="INT" mandatory="y" />
 			<column name="publicacion_id_contacto_adm" prior="id_contacto_adm" type="INT" mandatory="y" />
-			<column name="publicacion_fecha" prior="fecha" type="INT" mandatory="y" />
+			<column name="publicacion_fecha" prior="fecha" type="DATETIME" mandatory="y" />
 			<column name="fecha_entrega" type="DATETIME" length="9999999" mandatory="y" />
 			<index name="pk_tarea" unique="PRIMARY_KEY" >
 				<column name="id_contacto_estu" />
@@ -197,7 +197,7 @@
 		<table name="tarea_cloud" prior="tarea_clo" >
 			<column name="id_contacto_estu" type="INT" mandatory="y" />
 			<column name="publicacion_id_publicacion" type="INT" mandatory="y" />
-			<column name="publicacion_fecha" type="INT" mandatory="y" />
+			<column name="publicacion_fecha" type="DATETIME" mandatory="y" />
 			<column name="publicacion_id_contacto_adm" type="INT" mandatory="y" />
 			<column name="id_proveedor" type="VARCHAR" mandatory="y" />
 			<column name="cloud_path" type="VARCHAR" mandatory="y" />
@@ -221,7 +221,7 @@
 		<table name="tarea_digital" prior="tarea_cloud_0" >
 			<column name="id_contacto_estu" type="INT" mandatory="y" />
 			<column name="publicacion_id_publicacion" type="INT" mandatory="y" />
-			<column name="publicacion_fecha" type="INT" mandatory="y" />
+			<column name="publicacion_fecha" type="DATETIME" mandatory="y" />
 			<column name="publicacion_id_contacto_adm" type="INT" mandatory="y" />
 			<column name="archivo" prior="id_proveedor" type="BINARY" mandatory="y" />
 			<column name="comentario" prior="cloud_path" type="VARCHAR" mandatory="y" />

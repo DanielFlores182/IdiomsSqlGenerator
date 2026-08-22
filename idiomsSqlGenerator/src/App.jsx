@@ -4,7 +4,7 @@ import TitleBar from "./components/TitleBar.jsx"
 import DropZone from "./components/DropZone.jsx"
 import OutputConsole from "./components/OutputConsole.jsx"
 import InfoSection from "./components/InfoSection.jsx"
-import { parseDBSFile } from "./utils/dbsParser.js" // <-- Importamos nuestra lógica
+import { parseDBSFile } from "./utils/dbsParser.js"
 import "./App.css"
 
 export default function App() {
@@ -13,6 +13,8 @@ export default function App() {
   const [file, setFile] = useState(null)
   const [output, setOutput] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
+  
+  const [jsonData, setJsonData] = useState(null)
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme)
@@ -30,16 +32,18 @@ export default function App() {
     setOutput("> parsing schema ................\n> generating output.txt ......... running")
 
     try {
-      const resultLog = await parseDBSFile(file)
+      const { report, jsonData: parsedData } = await parseDBSFile(file)
       
-      //retraso para el efecto visual de la consola
       setTimeout(() => {
-        setOutput(resultLog)
+        setOutput(report)            
+        setJsonData(parsedData)     
         setIsGenerating(false)
+
       }, 600)
 
     } catch (error) {
       setOutput(`> parsing schema ................ ERROR\n// Error details: ${error.message}`)
+      setJsonData(null)
       setIsGenerating(false)
     }
   }

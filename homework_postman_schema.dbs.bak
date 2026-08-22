@@ -1,121 +1,122 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="TBDtemplates" database="LogicalDesign" id="93299b8d-e517-4823-a8bb-6ced39d5420f" >
-	<schema name="TBD_homework_postPage" >
+<project name="TBDtemplates" database="PostgreSQL" id="f0337ce0-aa65-4697-80fd-f55465383808" >
+	<schema name="tbd_homework_postpage" >
 		<table name="archivo" prior="archiv" >
-			<column name="id_archivo" type="INT" mandatory="y" />
-			<column name="publicacion_id_publicacion" prior="id_publicacion" type="INT" mandatory="y" />
-			<column name="publicacion_id_contacto_adm" prior="id_contacto_adm" type="INT" mandatory="y" />
-			<column name="publicacion_fecha" prior="fecha" type="INT" mandatory="y" />
-			<column name="id_tipo_archivo" type="INT" mandatory="y" />
-			<column name="contenido" type="BINARY" mandatory="y" />
+			<column name="id_archivo" type="integer" mandatory="y" />
+			<column name="publicacion_id_publicacion" prior="id_publicacion" type="integer" mandatory="y" />
+			<column name="publicacion_id_contacto_adm" prior="id_contacto_adm" type="integer" mandatory="y" />
+			<column name="publicacion_fecha" prior="fecha" type="integer" mandatory="y" />
+			<column name="id_tipo_archivo" type="integer" mandatory="y" />
+			<column name="contenido" type="bytea" mandatory="y" />
 			<index name="pk_archivo" unique="PRIMARY_KEY" >
 				<column name="id_archivo" />
 				<column name="publicacion_id_publicacion" />
 				<column name="publicacion_id_contacto_adm" />
 				<column name="publicacion_fecha" />
 			</index>
-			<fk name="fk_archivo_publicacion" to_schema="TBD_homework_postPage" to_table="publicacion" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_archivo_publicacion" to_schema="tbd_homework_postpage" to_table="publicacion" >
 				<fk_column name="publicacion_id_publicacion" pk="id_publicacion" />
 				<fk_column name="publicacion_id_contacto_adm" pk="id_contacto_adm" />
 				<fk_column name="publicacion_fecha" pk="fecha" />
 			</fk>
-			<fk name="fk_archivo_tipo_archivo" to_schema="TBD_homework_postPage" to_table="tipo_archivo" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_archivo_tipo_archivo" to_schema="tbd_homework_postpage" to_table="tipo_archivo" >
 				<fk_column name="id_tipo_archivo" pk="id_tipo_archivo" />
 			</fk>
 		</table>
 		<table name="contacto_admin" prior="contacto_admi" >
-			<column name="user_n_id_contacto" prior="userN_id_contacto" type="INT" mandatory="y" />
+			<column name="user_n_id_contacto" prior="userN_id_contacto" type="integer" mandatory="y" />
 			<index name="pk_contacto_admin" unique="PRIMARY_KEY" >
 				<column name="user_n_id_contacto" />
 			</index>
-			<fk name="fk_contacto_admin_userN" to_schema="TBD_homework_postPage" to_table="user_n" type="Identifying" mandatory="y" cardinality="ZeroOne" range_from="0" range_to="0" >
+			<fk name="fk_contacto_admin_usern" to_schema="tbd_homework_postpage" to_table="user_n" >
 				<fk_column name="user_n_id_contacto" pk="id_contacto" />
 			</fk>
 		</table>
 		<table name="contacto_estudiante" prior="contacto_estudainte" >
-			<column name="user_n_id_contacto" prior="userN_id_contacto" type="INT" mandatory="y" />
+			<column name="user_n_id_contacto" prior="userN_id_contacto" type="integer" mandatory="y" />
 			<index name="pk_contacto_estudainte" unique="PRIMARY_KEY" >
 				<column name="user_n_id_contacto" />
 			</index>
-			<fk name="fk_contacto_estudainte_userN" to_schema="TBD_homework_postPage" to_table="user_n" type="Identifying" mandatory="y" cardinality="ZeroOne" range_from="0" range_to="0" >
+			<fk name="fk_contacto_estudainte_usern" to_schema="tbd_homework_postpage" to_table="user_n" >
 				<fk_column name="user_n_id_contacto" pk="id_contacto" />
 			</fk>
 		</table>
 		<table name="funcion" prior="funci" >
-			<column name="id_funcion" type="INT" mandatory="y" />
-			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
-			<column name="descripcion" type="VARCHAR" length="9999999" mandatory="y" />
-			<column name="activo" type="BOOLEAN" mandatory="y" />
+			<column name="id_funcion" type="integer" mandatory="y" />
+			<column name="nombre" type="varchar" length="9999999" mandatory="y" />
+			<column name="descripcion" type="varchar" length="9999999" mandatory="y" />
+			<column name="activo" type="boolean" mandatory="y" />
 			<index name="pk_funcion" unique="PRIMARY_KEY" >
 				<column name="id_funcion" />
 			</index>
 		</table>
 		<table name="funcion_ui" prior="funcion_" >
-			<column name="id_funcion" type="INT" mandatory="y" />
-			<column name="id_ui" type="INT" mandatory="y" />
+			<column name="id_funcion" type="integer" mandatory="y" />
+			<column name="id_ui" type="integer" mandatory="y" />
 			<index name="pk_funcion_ui" unique="PRIMARY_KEY" >
 				<column name="id_funcion" />
 				<column name="id_ui" />
 			</index>
-			<fk name="fk_funcion_ui_funcion" to_schema="TBD_homework_postPage" to_table="funcion" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_funcion_ui_funcion" to_schema="tbd_homework_postpage" to_table="funcion" >
 				<fk_column name="id_funcion" pk="id_funcion" />
 			</fk>
-			<fk name="fk_funcion_ui_ui" to_schema="TBD_homework_postPage" to_table="ui" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_funcion_ui_ui" to_schema="tbd_homework_postpage" to_table="ui" >
 				<fk_column name="id_ui" pk="id_ui" />
 			</fk>
 		</table>
 		<table name="funciones_rol" prior="funciones_ro" >
-			<column name="id_rol" type="INT" mandatory="y" />
-			<column name="id_funcion" type="INT" mandatory="y" />
-			<column name="fecha_inicio" type="DATETIME" length="9999999" mandatory="y" />
+			<column name="id_rol" type="integer" mandatory="y" />
+			<column name="id_funcion" type="integer" mandatory="y" />
+			<column name="fecha_inicio" type="timestamp" length="9999999" mandatory="y" />
 			<index name="pk_funciones_rol" unique="PRIMARY_KEY" >
 				<column name="id_rol" />
 				<column name="id_funcion" />
 			</index>
-			<fk name="fk_funciones_rol_funcion" to_schema="TBD_homework_postPage" to_table="funcion" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_funciones_rol_funcion" to_schema="tbd_homework_postpage" to_table="funcion" >
 				<fk_column name="id_funcion" pk="id_funcion" />
 			</fk>
-			<fk name="fk_funciones_rol_rol" to_schema="TBD_homework_postPage" to_table="rol" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_funciones_rol_rol" to_schema="tbd_homework_postpage" to_table="rol" >
 				<fk_column name="id_rol" pk="id_rol" />
 			</fk>
 		</table>
 		<table name="h_piloto" prior="his_piloto" >
-			<column name="id_piloto" type="INT" mandatory="y" />
-			<column name="id_copiloto" type="INT" mandatory="y" />
-			<column name="etapa" type="VARCHAR" mandatory="y" />
-			<column name="fecha" type="DATETIME" length="9999999" mandatory="y" />
+			<column name="id_piloto" type="integer" mandatory="y" />
+			<column name="id_copiloto" type="integer" mandatory="y" />
+			<column name="etapa" type="varchar" mandatory="y" />
+			<column name="fecha" type="timestamp" length="9999999" mandatory="y" />
 			<index name="pk_h_piloto" unique="PRIMARY_KEY" >
 				<column name="id_piloto" />
 				<column name="id_copiloto" />
 			</index>
-			<fk name="fk_h_piloto_pilto" to_schema="TBD_homework_postPage" to_table="piloto" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_h_piloto_pilto" to_schema="tbd_homework_postpage" to_table="piloto" >
 				<fk_column name="id_piloto" pk="id_piloto" />
 			</fk>
-			<fk name="fk_h_piloto_pilto_0" to_schema="TBD_homework_postPage" to_table="piloto" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_h_piloto_pilto_0" to_schema="tbd_homework_postpage" to_table="piloto" >
 				<fk_column name="id_copiloto" pk="id_piloto" />
 			</fk>
 		</table>
+		<table name="persona" prior="perso" />
 		<table name="piloto" prior="pilto" >
-			<column name="id_piloto" type="INT" mandatory="y" />
-			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
+			<column name="id_piloto" type="integer" mandatory="y" />
+			<column name="nombre" type="varchar" length="9999999" mandatory="y" />
 			<index name="pk_pilto" unique="PRIMARY_KEY" >
 				<column name="id_piloto" />
 			</index>
 		</table>
 		<table name="proveedor_cloud" prior="proveedor_cl" >
-			<column name="id_proovedor" type="INT" mandatory="y" />
-			<column name="nombre" type="VARCHAR" length="9999999" />
+			<column name="id_proovedor" type="integer" mandatory="y" />
+			<column name="nombre" type="varchar" length="9999999" />
 			<index name="pk_proveedor_cloud" unique="PRIMARY_KEY" >
 				<column name="id_proovedor" />
 			</index>
 		</table>
 		<table name="publicacion" prior="Publicacion" >
-			<column name="id_publicacion" type="INT" mandatory="y" />
-			<column name="id_contacto_adm" prior="id_contacto" type="INT" mandatory="y" />
-			<column name="fecha" type="DATETIME" mandatory="y" />
-			<column name="id_tipo_publicacion" type="INT" mandatory="y" />
-			<column name="descripcion" type="VARCHAR" />
-			<index name="pk_Publicacion" unique="PRIMARY_KEY" >
+			<column name="id_publicacion" type="integer" mandatory="y" />
+			<column name="id_contacto_adm" prior="id_contacto" type="integer" mandatory="y" />
+			<column name="fecha" type="timestamp" mandatory="y" />
+			<column name="id_tipo_publicacion" type="integer" mandatory="y" />
+			<column name="descripcion" type="varchar" />
+			<index name="pk_publicacion" unique="PRIMARY_KEY" >
 				<column name="id_publicacion" />
 				<column name="id_contacto_adm" />
 				<column name="fecha" />
@@ -123,83 +124,83 @@
 			<index name="unq_descripcion" unique="UNIQUE_INDEX" >
 				<column name="descripcion" />
 			</index>
-			<index name="unq_Publicacion_descripcion" unique="UNIQUE_KEY" >
+			<index name="unq_publicacion_descripcion" unique="UNIQUE_KEY" >
 				<column name="descripcion" />
 			</index>
-			<fk name="fk_Publicacion_contacto_admin" to_schema="TBD_homework_postPage" to_table="contacto_admin" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_publicacion_contacto_admin" to_schema="tbd_homework_postpage" to_table="contacto_admin" >
 				<fk_column name="id_contacto_adm" pk="user_n_id_contacto" />
 			</fk>
-			<fk name="fk_Publicacion_tipo_publicacion" to_schema="TBD_homework_postPage" to_table="tipo_publicacion" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_publicacion_tipo_publicacion" to_schema="tbd_homework_postpage" to_table="tipo_publicacion" >
 				<fk_column name="id_tipo_publicacion" pk="id_tipo" />
 			</fk>
 		</table>
 		<table name="rol" prior="r" >
-			<column name="id_rol" type="INT" mandatory="y" />
-			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
-			<column name="descripcion" type="VARCHAR" length="9999999" mandatory="y" />
-			<column name="activo" type="BOOLEAN" mandatory="y" />
+			<column name="id_rol" type="integer" mandatory="y" />
+			<column name="nombre" type="varchar" length="9999999" mandatory="y" />
+			<column name="descripcion" type="varchar" length="9999999" mandatory="y" />
+			<column name="activo" type="boolean" mandatory="y" />
 			<index name="pk_rol" unique="PRIMARY_KEY" >
 				<column name="id_rol" />
 			</index>
 		</table>
 		<table name="rol_usuario" prior="rol_usuar" >
-			<column name="user_n_id_contacto" prior="id_user_n" type="INT" mandatory="y" />
-			<column name="id_rol" type="INT" mandatory="y" />
-			<column name="desde" type="DATETIME" mandatory="y" />
-			<column name="hasta" type="DATETIME" />
-			<column name="fecha_creacion" type="DATETIME" length="9999999" mandatory="y" />
+			<column name="user_n_id_contacto" prior="id_user_n" type="integer" mandatory="y" />
+			<column name="id_rol" type="integer" mandatory="y" />
+			<column name="desde" type="timestamp" mandatory="y" />
+			<column name="hasta" type="timestamp" />
+			<column name="fecha_creacion" type="timestamp" length="9999999" mandatory="y" />
 			<index name="pk_rol_usuario" unique="PRIMARY_KEY" >
 				<column name="user_n_id_contacto" />
 				<column name="id_rol" />
 			</index>
-			<fk name="fk_rol_usuario_user_n" to_schema="TBD_homework_postPage" to_table="user_n" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_rol_usuario_user_n" to_schema="tbd_homework_postpage" to_table="user_n" >
 				<fk_column name="user_n_id_contacto" pk="id_contacto" />
 			</fk>
-			<fk name="fk_rol_usuario_rol" to_schema="TBD_homework_postPage" to_table="rol" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_rol_usuario_rol" to_schema="tbd_homework_postpage" to_table="rol" >
 				<fk_column name="id_rol" pk="id_rol" />
 			</fk>
 		</table>
 		<table name="sesion" prior="sesio" >
-			<column name="id_sesion" type="INT" mandatory="y" />
-			<column name="user_n_id_contacto" prior="id_contacto" type="INT" mandatory="y" />
-			<column name="pid" type="VARCHAR" mandatory="y" />
-			<column name="activo" type="BOOLEAN" mandatory="y" />
+			<column name="id_sesion" type="integer" mandatory="y" />
+			<column name="user_n_id_contacto" prior="id_contacto" type="integer" mandatory="y" />
+			<column name="pid" type="varchar" mandatory="y" />
+			<column name="activo" type="boolean" mandatory="y" />
 			<index name="pk_sesion" unique="PRIMARY_KEY" >
 				<column name="id_sesion" />
 				<column name="user_n_id_contacto" />
 			</index>
-			<fk name="fk_sesion_user_n" to_schema="TBD_homework_postPage" to_table="user_n" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_sesion_user_n" to_schema="tbd_homework_postpage" to_table="user_n" >
 				<fk_column name="user_n_id_contacto" pk="id_contacto" />
 			</fk>
 		</table>
 		<table name="tarea" prior="tare" >
-			<column name="id_contacto_estu" prior="id_contacto_estudiante" type="INT" mandatory="y" />
-			<column name="publicacion_id_publicacion" prior="id_publicacion" type="INT" mandatory="y" />
-			<column name="publicacion_id_contacto_adm" prior="id_contacto_adm" type="INT" mandatory="y" />
-			<column name="publicacion_fecha" prior="fecha" type="INT" mandatory="y" />
-			<column name="fecha_entrega" type="DATETIME" length="9999999" mandatory="y" />
+			<column name="id_contacto_estu" prior="id_contacto_estudiante" type="integer" mandatory="y" />
+			<column name="publicacion_id_publicacion" prior="id_publicacion" type="integer" mandatory="y" />
+			<column name="publicacion_id_contacto_adm" prior="id_contacto_adm" type="integer" mandatory="y" />
+			<column name="publicacion_fecha" prior="fecha" type="integer" mandatory="y" />
+			<column name="fecha_entrega" type="timestamp" length="9999999" mandatory="y" />
 			<index name="pk_tarea" unique="PRIMARY_KEY" >
 				<column name="id_contacto_estu" />
 				<column name="publicacion_id_publicacion" />
 				<column name="publicacion_fecha" />
 				<column name="publicacion_id_contacto_adm" />
 			</index>
-			<fk name="fk_tarea_Publicacion" to_schema="TBD_homework_postPage" to_table="publicacion" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_tarea_publicacion" to_schema="tbd_homework_postpage" to_table="publicacion" >
 				<fk_column name="publicacion_id_publicacion" pk="id_publicacion" />
 				<fk_column name="publicacion_id_contacto_adm" pk="id_contacto_adm" />
 				<fk_column name="publicacion_fecha" pk="fecha" />
 			</fk>
-			<fk name="fk_tarea_contacto_estudainte" to_schema="TBD_homework_postPage" to_table="contacto_estudiante" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_tarea_contacto_estudainte" to_schema="tbd_homework_postpage" to_table="contacto_estudiante" >
 				<fk_column name="id_contacto_estu" pk="user_n_id_contacto" />
 			</fk>
 		</table>
 		<table name="tarea_cloud" prior="tarea_clo" >
-			<column name="id_contacto_estu" type="INT" mandatory="y" />
-			<column name="publicacion_id_publicacion" type="INT" mandatory="y" />
-			<column name="publicacion_fecha" type="INT" mandatory="y" />
-			<column name="publicacion_id_contacto_adm" type="INT" mandatory="y" />
-			<column name="id_proveedor" type="VARCHAR" mandatory="y" />
-			<column name="cloud_path" type="VARCHAR" mandatory="y" />
+			<column name="id_contacto_estu" type="integer" mandatory="y" />
+			<column name="publicacion_id_publicacion" type="integer" mandatory="y" />
+			<column name="publicacion_fecha" type="integer" mandatory="y" />
+			<column name="publicacion_id_contacto_adm" type="integer" mandatory="y" />
+			<column name="id_proveedor" type="varchar" mandatory="y" />
+			<column name="cloud_path" type="varchar" mandatory="y" />
 			<index name="pk_tarea_cloud" unique="PRIMARY_KEY" >
 				<column name="id_contacto_estu" />
 				<column name="publicacion_id_publicacion" />
@@ -207,30 +208,30 @@
 				<column name="publicacion_id_contacto_adm" />
 				<column name="id_proveedor" />
 			</index>
-			<fk name="fk_tarea_cloud_tarea" to_schema="TBD_homework_postPage" to_table="tarea" type="Identifying" mandatory="y" cardinality="ZeroOne" range_from="0" range_to="0" >
+			<fk name="fk_tarea_cloud_tarea" to_schema="tbd_homework_postpage" to_table="tarea" >
 				<fk_column name="id_contacto_estu" pk="id_contacto_estu" />
 				<fk_column name="publicacion_id_publicacion" pk="publicacion_id_publicacion" />
 				<fk_column name="publicacion_fecha" pk="publicacion_fecha" />
 				<fk_column name="publicacion_id_contacto_adm" pk="publicacion_id_contacto_adm" />
 			</fk>
-			<fk name="fk_tarea_cloud_proveedor_cloud" to_schema="TBD_homework_postPage" to_table="proveedor_cloud" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+			<fk name="fk_tarea_cloud_proveedor_cloud" to_schema="tbd_homework_postpage" to_table="proveedor_cloud" >
 				<fk_column name="id_proveedor" pk="id_proovedor" />
 			</fk>
 		</table>
 		<table name="tarea_digital" prior="tarea_cloud_0" >
-			<column name="id_contacto_estu" type="INT" mandatory="y" />
-			<column name="publicacion_id_publicacion" type="INT" mandatory="y" />
-			<column name="publicacion_fecha" type="INT" mandatory="y" />
-			<column name="publicacion_id_contacto_adm" type="INT" mandatory="y" />
-			<column name="archivo" prior="id_proveedor" type="BINARY" mandatory="y" />
-			<column name="comentario" prior="cloud_path" type="VARCHAR" mandatory="y" />
+			<column name="id_contacto_estu" type="integer" mandatory="y" />
+			<column name="publicacion_id_publicacion" type="integer" mandatory="y" />
+			<column name="publicacion_fecha" type="integer" mandatory="y" />
+			<column name="publicacion_id_contacto_adm" type="integer" mandatory="y" />
+			<column name="archivo" prior="id_proveedor" type="bytea" mandatory="y" />
+			<column name="comentario" prior="cloud_path" type="varchar" mandatory="y" />
 			<index name="pk_tarea_cloud_0" unique="PRIMARY_KEY" >
 				<column name="id_contacto_estu" />
 				<column name="publicacion_id_publicacion" />
 				<column name="publicacion_fecha" />
 				<column name="publicacion_id_contacto_adm" />
 			</index>
-			<fk name="fk_tarea_cloud_tarea_0" to_schema="TBD_homework_postPage" to_table="tarea" type="Identifying" mandatory="y" cardinality="ZeroOne" range_from="0" range_to="0" >
+			<fk name="fk_tarea_cloud_tarea_0" to_schema="tbd_homework_postpage" to_table="tarea" >
 				<fk_column name="id_contacto_estu" pk="id_contacto_estu" />
 				<fk_column name="publicacion_id_publicacion" pk="publicacion_id_publicacion" />
 				<fk_column name="publicacion_fecha" pk="publicacion_fecha" />
@@ -238,50 +239,50 @@
 			</fk>
 		</table>
 		<table name="tipo_archivo" prior="tipo_archiv" >
-			<column name="id_tipo_archivo" type="INT" mandatory="y" />
-			<column name="formato" type="VARCHAR" mandatory="y" />
+			<column name="id_tipo_archivo" type="integer" mandatory="y" />
+			<column name="formato" type="varchar" mandatory="y" />
 			<index name="pk_tipo_archivo" unique="PRIMARY_KEY" >
 				<column name="id_tipo_archivo" />
 			</index>
 		</table>
 		<table name="tipo_publicacion" prior="tipo_publicacio" >
-			<column name="id_tipo" type="INT" mandatory="y" />
-			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
-			<column name="descripcion" type="VARCHAR" length="9999999" mandatory="y" />
+			<column name="id_tipo" type="integer" mandatory="y" />
+			<column name="nombre" type="varchar" length="9999999" mandatory="y" />
+			<column name="descripcion" type="varchar" length="9999999" mandatory="y" />
 			<index name="pk_tipo_publicacion" unique="PRIMARY_KEY" >
 				<column name="id_tipo" />
 			</index>
 		</table>
 		<table name="trabajador" prior="piloto" >
-			<column name="id_trabajador" prior="id_piloto" type="INT" mandatory="y" />
-			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
-			<column name="id_supervisado" prior="id_copiloto" type="INT" mandatory="y" />
+			<column name="id_trabajador" prior="id_piloto" type="integer" mandatory="y" />
+			<column name="nombre" type="varchar" length="9999999" mandatory="y" />
+			<column name="id_supervisado" prior="id_copiloto" type="integer" mandatory="y" />
 			<index name="pk_reflectivo" unique="PRIMARY_KEY" >
 				<column name="id_trabajador" />
 			</index>
-			<fk name="fk_trabajador_trabajador" to_schema="TBD_homework_postPage" to_table="trabajador" type="NonIdentifying" mandatory="n" cardinality="ZeroOne" range_from="0" range_to="0" >
+			<fk name="fk_trabajador_trabajador" to_schema="tbd_homework_postpage" to_table="trabajador" >
 				<fk_column name="id_supervisado" pk="id_trabajador" />
 			</fk>
 		</table>
 		<table name="ui" prior="u" >
-			<column name="id_ui" type="INT" mandatory="y" />
-			<column name="nombre" type="VARCHAR" length="9999999" mandatory="y" />
+			<column name="id_ui" type="integer" mandatory="y" />
+			<column name="nombre" type="varchar" length="9999999" mandatory="y" />
 			<index name="pk_ui" unique="PRIMARY_KEY" >
 				<column name="id_ui" />
 			</index>
 		</table>
 		<table name="user_n" prior="userN" >
-			<column name="id_contacto" type="INT" mandatory="y" />
-			<column name="nombre" type="VARCHAR" mandatory="y" />
-			<column name="datos" type="VARCHAR" mandatory="y" />
-			<column name="passwordkey" type="VARCHAR" mandatory="y" />
-			<index name="pk_uresN" unique="PRIMARY_KEY" >
+			<column name="id_contacto" type="integer" mandatory="y" />
+			<column name="nombre" type="varchar" mandatory="y" />
+			<column name="datos" type="varchar" mandatory="y" />
+			<column name="passwordkey" type="varchar" mandatory="y" />
+			<index name="pk_uresn" unique="PRIMARY_KEY" >
 				<column name="id_contacto" />
 			</index>
 		</table>
 	</schema>
-	<diagram_group name="Default" id="4e92ed31-d3ee-4e27-904e-28f7e4789182" >
-		<diagram name="Default Diagram" id="313e492e-4df7-43fd-99ed-34b4d4ee53c9" show_relation="columns" >
+	<diagram_group name="Default" id="d1b38068-9ff4-40c7-a024-a93ad263de77" >
+		<diagram name="Default Diagram" id="89f00a61-ff5a-42b8-b1b4-4178de403e2a" confirmed="y" show_relation="columns" >
 			<callout x="57" y="57" pointer="Round" >
 				<comment><![CDATA[- Create new entities by right-clicking the diagram. 
 - Double-click entity headers to edit.
@@ -289,28 +290,220 @@
 - Convert the logical design to physical design and deploy it into the database.]]></comment>
 			</callout>
 		</diagram>
-		<diagram name="Diagram_homework_postPage" id="c0399b44-b161-4303-8151-5d0f0bf8c370" show_relation="cascade" >
-			<entity schema="TBD_homework_postPage" name="archivo" color="C1D8EE" x="722" y="266" />
-			<entity schema="TBD_homework_postPage" name="contacto_admin" color="C1D8EE" x="361" y="57" />
-			<entity schema="TBD_homework_postPage" name="contacto_estudiante" color="C1D8EE" x="285" y="152" />
-			<entity schema="TBD_homework_postPage" name="funcion" color="C1D8EE" x="608" y="646" />
-			<entity schema="TBD_homework_postPage" name="funcion_ui" color="C1D8EE" x="855" y="646" />
-			<entity schema="TBD_homework_postPage" name="funciones_rol" color="C1D8EE" x="399" y="646" />
-			<entity schema="TBD_homework_postPage" name="h_piloto" color="C1D8EE" x="1463" y="551" />
-			<entity schema="TBD_homework_postPage" name="piloto" color="C1D8EE" x="1197" y="551" />
-			<entity schema="TBD_homework_postPage" name="proveedor_cloud" color="C1D8EE" x="684" y="513" />
-			<entity schema="TBD_homework_postPage" name="publicacion" color="C1D8EE" x="646" y="57" />
-			<entity schema="TBD_homework_postPage" name="rol" color="C1D8EE" x="152" y="627" />
-			<entity schema="TBD_homework_postPage" name="rol_usuario" color="C1D8EE" x="95" y="418" />
-			<entity schema="TBD_homework_postPage" name="sesion" color="C1D8EE" x="76" y="266" />
-			<entity schema="TBD_homework_postPage" name="tarea" color="C1D8EE" x="361" y="266" />
-			<entity schema="TBD_homework_postPage" name="tarea_cloud" color="C1D8EE" x="361" y="456" />
-			<entity schema="TBD_homework_postPage" name="tarea_digital" color="3986C1" x="893" y="456" />
-			<entity schema="TBD_homework_postPage" name="tipo_archivo" color="C1D8EE" x="1064" y="247" />
-			<entity schema="TBD_homework_postPage" name="tipo_publicacion" color="C1D8EE" x="931" y="57" />
-			<entity schema="TBD_homework_postPage" name="trabajador" color="C1D8EE" x="1216" y="380" />
-			<entity schema="TBD_homework_postPage" name="ui" color="C1D8EE" x="1064" y="646" />
-			<entity schema="TBD_homework_postPage" name="user_n" color="C1D8EE" x="57" y="95" />
+		<diagram name="Diagram_homework_postPage" id="d6f20d0a-4635-4345-88e8-7f4910348c79" confirmed="y" show_relation="columns" >
+			<entity schema="tbd_homework_postpage" name="archivo" color="C1D8EE" x="722" y="266" />
+			<entity schema="tbd_homework_postpage" name="contacto_admin" color="C1D8EE" x="361" y="57" />
+			<entity schema="tbd_homework_postpage" name="contacto_estudiante" color="C1D8EE" x="285" y="152" />
+			<entity schema="tbd_homework_postpage" name="funcion" color="C1D8EE" x="608" y="646" />
+			<entity schema="tbd_homework_postpage" name="funcion_ui" color="C1D8EE" x="855" y="646" />
+			<entity schema="tbd_homework_postpage" name="funciones_rol" color="C1D8EE" x="399" y="646" />
+			<entity schema="tbd_homework_postpage" name="h_piloto" color="C1D8EE" x="1463" y="551" />
+			<entity schema="tbd_homework_postpage" name="persona" color="C1D8EE" x="1159" y="76" />
+			<entity schema="tbd_homework_postpage" name="piloto" color="C1D8EE" x="1197" y="551" />
+			<entity schema="tbd_homework_postpage" name="proveedor_cloud" color="C1D8EE" x="684" y="513" />
+			<entity schema="tbd_homework_postpage" name="publicacion" color="C1D8EE" x="646" y="57" />
+			<entity schema="tbd_homework_postpage" name="rol" color="C1D8EE" x="152" y="627" />
+			<entity schema="tbd_homework_postpage" name="rol_usuario" color="C1D8EE" x="95" y="418" />
+			<entity schema="tbd_homework_postpage" name="sesion" color="C1D8EE" x="76" y="266" />
+			<entity schema="tbd_homework_postpage" name="tarea" color="C1D8EE" x="361" y="266" />
+			<entity schema="tbd_homework_postpage" name="tarea_cloud" color="C1D8EE" x="361" y="456" />
+			<entity schema="tbd_homework_postpage" name="tarea_digital" color="3986C1" x="893" y="456" />
+			<entity schema="tbd_homework_postpage" name="tipo_archivo" color="C1D8EE" x="1064" y="247" />
+			<entity schema="tbd_homework_postpage" name="tipo_publicacion" color="C1D8EE" x="931" y="57" />
+			<entity schema="tbd_homework_postpage" name="trabajador" color="C1D8EE" x="1216" y="380" />
+			<entity schema="tbd_homework_postpage" name="ui" color="C1D8EE" x="1064" y="646" />
+			<entity schema="tbd_homework_postpage" name="user_n" color="C1D8EE" x="57" y="95" />
+			<script name="SQL_Editor" id="ba57e900-6c18-4314-a9b2-01c41233b232" language="SQL" >
+				<string><![CDATA[CREATE SCHEMA IF NOT EXISTS tbd_homework_postpage;
+
+CREATE  TABLE tbd_homework_postpage.funcion ( 
+	id_funcion           integer  NOT NULL  ,
+	nombre               varchar(9999999)  NOT NULL  ,
+	descripcion          varchar(9999999)  NOT NULL  ,
+	activo               boolean  NOT NULL  ,
+	CONSTRAINT pk_funcion PRIMARY KEY ( id_funcion )
+ );
+
+CREATE  TABLE tbd_homework_postpage.persona ( 
+ );
+
+CREATE  TABLE tbd_homework_postpage.piloto ( 
+	id_piloto            integer  NOT NULL  ,
+	nombre               varchar(9999999)  NOT NULL  ,
+	CONSTRAINT pk_pilto PRIMARY KEY ( id_piloto )
+ );
+
+CREATE  TABLE tbd_homework_postpage.proveedor_cloud ( 
+	id_proovedor         integer  NOT NULL  ,
+	nombre               varchar(9999999)    ,
+	CONSTRAINT pk_proveedor_cloud PRIMARY KEY ( id_proovedor )
+ );
+
+CREATE  TABLE tbd_homework_postpage.rol ( 
+	id_rol               integer  NOT NULL  ,
+	nombre               varchar(9999999)  NOT NULL  ,
+	descripcion          varchar(9999999)  NOT NULL  ,
+	activo               boolean  NOT NULL  ,
+	CONSTRAINT pk_rol PRIMARY KEY ( id_rol )
+ );
+
+CREATE  TABLE tbd_homework_postpage.tipo_archivo ( 
+	id_tipo_archivo      integer  NOT NULL  ,
+	formato              varchar  NOT NULL  ,
+	CONSTRAINT pk_tipo_archivo PRIMARY KEY ( id_tipo_archivo )
+ );
+
+CREATE  TABLE tbd_homework_postpage.tipo_publicacion ( 
+	id_tipo              integer  NOT NULL  ,
+	nombre               varchar(9999999)  NOT NULL  ,
+	descripcion          varchar(9999999)  NOT NULL  ,
+	CONSTRAINT pk_tipo_publicacion PRIMARY KEY ( id_tipo )
+ );
+
+CREATE  TABLE tbd_homework_postpage.trabajador ( 
+	id_trabajador        integer  NOT NULL  ,
+	nombre               varchar(9999999)  NOT NULL  ,
+	id_supervisado       integer  NOT NULL  ,
+	CONSTRAINT pk_reflectivo PRIMARY KEY ( id_trabajador ),
+	CONSTRAINT fk_trabajador_trabajador FOREIGN KEY ( id_supervisado ) REFERENCES tbd_homework_postpage.trabajador( id_trabajador )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.ui ( 
+	id_ui                integer  NOT NULL  ,
+	nombre               varchar(9999999)  NOT NULL  ,
+	CONSTRAINT pk_ui PRIMARY KEY ( id_ui )
+ );
+
+CREATE  TABLE tbd_homework_postpage.user_n ( 
+	id_contacto          integer  NOT NULL  ,
+	nombre               varchar  NOT NULL  ,
+	datos                varchar  NOT NULL  ,
+	passwordkey          varchar  NOT NULL  ,
+	CONSTRAINT pk_uresn PRIMARY KEY ( id_contacto )
+ );
+
+CREATE  TABLE tbd_homework_postpage.contacto_admin ( 
+	user_n_id_contacto   integer  NOT NULL  ,
+	CONSTRAINT pk_contacto_admin PRIMARY KEY ( user_n_id_contacto ),
+	CONSTRAINT fk_contacto_admin_usern FOREIGN KEY ( user_n_id_contacto ) REFERENCES tbd_homework_postpage.user_n( id_contacto )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.contacto_estudiante ( 
+	user_n_id_contacto   integer  NOT NULL  ,
+	CONSTRAINT pk_contacto_estudainte PRIMARY KEY ( user_n_id_contacto ),
+	CONSTRAINT fk_contacto_estudainte_usern FOREIGN KEY ( user_n_id_contacto ) REFERENCES tbd_homework_postpage.user_n( id_contacto )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.funcion_ui ( 
+	id_funcion           integer  NOT NULL  ,
+	id_ui                integer  NOT NULL  ,
+	CONSTRAINT pk_funcion_ui PRIMARY KEY ( id_funcion, id_ui ),
+	CONSTRAINT fk_funcion_ui_funcion FOREIGN KEY ( id_funcion ) REFERENCES tbd_homework_postpage.funcion( id_funcion )   ,
+	CONSTRAINT fk_funcion_ui_ui FOREIGN KEY ( id_ui ) REFERENCES tbd_homework_postpage.ui( id_ui )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.funciones_rol ( 
+	id_rol               integer  NOT NULL  ,
+	id_funcion           integer  NOT NULL  ,
+	fecha_inicio         timestamp(9999999)  NOT NULL  ,
+	CONSTRAINT pk_funciones_rol PRIMARY KEY ( id_rol, id_funcion ),
+	CONSTRAINT fk_funciones_rol_funcion FOREIGN KEY ( id_funcion ) REFERENCES tbd_homework_postpage.funcion( id_funcion )   ,
+	CONSTRAINT fk_funciones_rol_rol FOREIGN KEY ( id_rol ) REFERENCES tbd_homework_postpage.rol( id_rol )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.h_piloto ( 
+	id_piloto            integer  NOT NULL  ,
+	id_copiloto          integer  NOT NULL  ,
+	etapa                varchar  NOT NULL  ,
+	fecha                timestamp(9999999)  NOT NULL  ,
+	CONSTRAINT pk_h_piloto PRIMARY KEY ( id_piloto, id_copiloto ),
+	CONSTRAINT fk_h_piloto_pilto FOREIGN KEY ( id_piloto ) REFERENCES tbd_homework_postpage.piloto( id_piloto )   ,
+	CONSTRAINT fk_h_piloto_pilto_0 FOREIGN KEY ( id_copiloto ) REFERENCES tbd_homework_postpage.piloto( id_piloto )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.publicacion ( 
+	id_publicacion       integer  NOT NULL  ,
+	id_contacto_adm      integer  NOT NULL  ,
+	fecha                timestamp  NOT NULL  ,
+	id_tipo_publicacion  integer  NOT NULL  ,
+	descripcion          varchar    ,
+	CONSTRAINT pk_publicacion PRIMARY KEY ( id_publicacion, id_contacto_adm, fecha ),
+	CONSTRAINT unq_publicacion_descripcion UNIQUE ( descripcion ) ,
+	CONSTRAINT fk_publicacion_contacto_admin FOREIGN KEY ( id_contacto_adm ) REFERENCES tbd_homework_postpage.contacto_admin( user_n_id_contacto )   ,
+	CONSTRAINT fk_publicacion_tipo_publicacion FOREIGN KEY ( id_tipo_publicacion ) REFERENCES tbd_homework_postpage.tipo_publicacion( id_tipo )   
+ );
+
+CREATE UNIQUE INDEX unq_descripcion ON tbd_homework_postpage.publicacion ( descripcion );
+
+CREATE  TABLE tbd_homework_postpage.rol_usuario ( 
+	user_n_id_contacto   integer  NOT NULL  ,
+	id_rol               integer  NOT NULL  ,
+	desde                timestamp  NOT NULL  ,
+	hasta                timestamp    ,
+	fecha_creacion       timestamp(9999999)  NOT NULL  ,
+	CONSTRAINT pk_rol_usuario PRIMARY KEY ( user_n_id_contacto, id_rol ),
+	CONSTRAINT fk_rol_usuario_user_n FOREIGN KEY ( user_n_id_contacto ) REFERENCES tbd_homework_postpage.user_n( id_contacto )   ,
+	CONSTRAINT fk_rol_usuario_rol FOREIGN KEY ( id_rol ) REFERENCES tbd_homework_postpage.rol( id_rol )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.sesion ( 
+	id_sesion            integer  NOT NULL  ,
+	user_n_id_contacto   integer  NOT NULL  ,
+	pid                  varchar  NOT NULL  ,
+	activo               boolean  NOT NULL  ,
+	CONSTRAINT pk_sesion PRIMARY KEY ( id_sesion, user_n_id_contacto ),
+	CONSTRAINT fk_sesion_user_n FOREIGN KEY ( user_n_id_contacto ) REFERENCES tbd_homework_postpage.user_n( id_contacto )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.tarea ( 
+	id_contacto_estu     integer  NOT NULL  ,
+	publicacion_id_publicacion integer  NOT NULL  ,
+	publicacion_id_contacto_adm integer  NOT NULL  ,
+	publicacion_fecha    integer  NOT NULL  ,
+	fecha_entrega        timestamp(9999999)  NOT NULL  ,
+	CONSTRAINT pk_tarea PRIMARY KEY ( id_contacto_estu, publicacion_id_publicacion, publicacion_fecha, publicacion_id_contacto_adm ),
+	CONSTRAINT fk_tarea_publicacion FOREIGN KEY ( publicacion_id_publicacion, publicacion_id_contacto_adm, publicacion_fecha ) REFERENCES tbd_homework_postpage.publicacion( id_publicacion, id_contacto_adm, fecha )   ,
+	CONSTRAINT fk_tarea_contacto_estudainte FOREIGN KEY ( id_contacto_estu ) REFERENCES tbd_homework_postpage.contacto_estudiante( user_n_id_contacto )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.tarea_cloud ( 
+	id_contacto_estu     integer  NOT NULL  ,
+	publicacion_id_publicacion integer  NOT NULL  ,
+	publicacion_fecha    integer  NOT NULL  ,
+	publicacion_id_contacto_adm integer  NOT NULL  ,
+	id_proveedor         varchar  NOT NULL  ,
+	cloud_path           varchar  NOT NULL  ,
+	CONSTRAINT pk_tarea_cloud PRIMARY KEY ( id_contacto_estu, publicacion_id_publicacion, publicacion_fecha, publicacion_id_contacto_adm, id_proveedor ),
+	CONSTRAINT fk_tarea_cloud_tarea FOREIGN KEY ( id_contacto_estu, publicacion_id_publicacion, publicacion_fecha, publicacion_id_contacto_adm ) REFERENCES tbd_homework_postpage.tarea( id_contacto_estu, publicacion_id_publicacion, publicacion_fecha, publicacion_id_contacto_adm )   ,
+	CONSTRAINT fk_tarea_cloud_proveedor_cloud FOREIGN KEY ( id_proveedor ) REFERENCES tbd_homework_postpage.proveedor_cloud( id_proovedor )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.tarea_digital ( 
+	id_contacto_estu     integer  NOT NULL  ,
+	publicacion_id_publicacion integer  NOT NULL  ,
+	publicacion_fecha    integer  NOT NULL  ,
+	publicacion_id_contacto_adm integer  NOT NULL  ,
+	archivo              bytea  NOT NULL  ,
+	comentario           varchar  NOT NULL  ,
+	CONSTRAINT pk_tarea_cloud_0 PRIMARY KEY ( id_contacto_estu, publicacion_id_publicacion, publicacion_fecha, publicacion_id_contacto_adm ),
+	CONSTRAINT fk_tarea_cloud_tarea_0 FOREIGN KEY ( id_contacto_estu, publicacion_id_publicacion, publicacion_fecha, publicacion_id_contacto_adm ) REFERENCES tbd_homework_postpage.tarea( id_contacto_estu, publicacion_id_publicacion, publicacion_fecha, publicacion_id_contacto_adm )   
+ );
+
+CREATE  TABLE tbd_homework_postpage.archivo ( 
+	id_archivo           integer  NOT NULL  ,
+	publicacion_id_publicacion integer  NOT NULL  ,
+	publicacion_id_contacto_adm integer  NOT NULL  ,
+	publicacion_fecha    integer  NOT NULL  ,
+	id_tipo_archivo      integer  NOT NULL  ,
+	contenido            bytea  NOT NULL  ,
+	CONSTRAINT pk_archivo PRIMARY KEY ( id_archivo, publicacion_id_publicacion, publicacion_id_contacto_adm, publicacion_fecha ),
+	CONSTRAINT fk_archivo_publicacion FOREIGN KEY ( publicacion_id_publicacion, publicacion_id_contacto_adm, publicacion_fecha ) REFERENCES tbd_homework_postpage.publicacion( id_publicacion, id_contacto_adm, fecha )   ,
+	CONSTRAINT fk_archivo_tipo_archivo FOREIGN KEY ( id_tipo_archivo ) REFERENCES tbd_homework_postpage.tipo_archivo( id_tipo_archivo )   
+ );
+
+]]></string>
+			</script>
 		</diagram>
+		<diagram name="Diagram" id="0225e19f-849c-4734-a53b-c407ce2c3974" show_relation="columns" />
 	</diagram_group>
 </project>
