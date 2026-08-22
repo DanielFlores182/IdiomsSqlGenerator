@@ -28,7 +28,6 @@ export async function parseDBSFile(file) {
   const historicalReflexives = [];
   const basics = []; 
 
-  // --- NUEVO: Objeto JSON estructurado para tu idiomsCoreMapper.js ---
   const jsonData = {
     entities: [],
     idioms: {
@@ -41,7 +40,6 @@ export async function parseDBSFile(file) {
       historical_reflexives: []
     }
   };
-  // ------------------------------------------------------------------
 
   const allReferencedTables = new Set();
   const outboundFkCounts = {};
@@ -50,7 +48,6 @@ export async function parseDBSFile(file) {
     const tableName = table.getAttribute("name");
     tableNames.push(`  ${index + 1}. ${tableName}`);
     
-    // Registramos la entidad en el JSON
     jsonData.entities.push(tableName);
     
     const fks = table.getElementsByTagName("fk");
@@ -67,7 +64,6 @@ export async function parseDBSFile(file) {
       
       allReferencedTables.add(toTable);
 
-      // Validaciones is_a
       if (
         type === "Identifying" && 
         mandatory === "y" && 
@@ -77,7 +73,6 @@ export async function parseDBSFile(file) {
         jsonData.idioms.is_a.push({ weak: tableName, strong: toTable });
       }
 
-      // Validaciones classifiers
       if (
         type === "NonIdentifying" && 
         (cardinality === "ZeroMore" || cardinality === "OneMore") &&
@@ -87,7 +82,6 @@ export async function parseDBSFile(file) {
         jsonData.idioms.classifiers.push({ weak: tableName, strong: toTable });
       }
 
-      // Validaciones reflexives
       if (
         toTable === tableName &&
         type === "NonIdentifying" && 
@@ -98,7 +92,6 @@ export async function parseDBSFile(file) {
         jsonData.idioms.reflexives.push(tableName); // Solo requiere el nombre
       }
 
-      // Filtrado de las fks que cumplen la regla específica para master_detail, composition e historical_reflexive
       if (
         type === "Identifying" && 
         mandatory === "y" && 
@@ -108,7 +101,6 @@ export async function parseDBSFile(file) {
       }
     });
 
-    // Contamos cuántas veces se repite cada to_table en esta entidad
     const targetCounts = {};
     identifyingMultiRelations.forEach(t => {
       targetCounts[t] = (targetCounts[t] || 0) + 1;
@@ -116,10 +108,8 @@ export async function parseDBSFile(file) {
 
     const remainingTargets = [];
 
-    // Separamos los que son reflexivos históricos de los que son relaciones (master_detail / composition)
     for (const [target, count] of Object.entries(targetCounts)) {
       if (count >= 2) {
-        // Si hay 2 o más FKs apuntando a la misma tabla con estas reglas, es historical_reflexive
         historicalReflexives.push(`  - ${target} is_historical_reflexive_with ${tableName}`);
         jsonData.idioms.historical_reflexives.push({ weak: tableName, strong: target });
       } else {
@@ -141,7 +131,7 @@ export async function parseDBSFile(file) {
     const tableName = table.getAttribute("name");
     if (outboundFkCounts[tableName] === 0 && !allReferencedTables.has(tableName)) {
       basics.push(`  - ${tableName} is_basic`);
-      jsonData.idioms.basics.push(tableName); // Solo requiere el nombre
+      jsonData.idioms.basics.push(tableName);
     }
   });
 
@@ -153,7 +143,6 @@ export async function parseDBSFile(file) {
   const historicalReflexivesCount = historicalReflexives.length;
   const basicsCount = basics.length;
 
-  // Bloques de texto para el reporte final
   const basicsLog = basicsCount > 0 
     ? `\n// Found ${basicsCount} basic idioms in the database:\n${basics.join('\n')}` 
     : "";
@@ -182,7 +171,6 @@ export async function parseDBSFile(file) {
     ? `\n// Found ${historicalReflexivesCount} historical_reflexive idioms in the database:\n${historicalReflexives.join('\n')}` 
     : "";
   
-  // Guardamos el string en una variable report
   const report = `> parsing schema ................. ok
 > entitys detected ............... ${tableCount.toString().padStart(2, '0')}
 > basics detected ................ ${basicsCount.toString().padStart(2, '0')}
@@ -206,6 +194,5 @@ ${reflexivesLog}
 ${historicalReflexivesLog}
 `;
 
-  // --- Retornamos ambos valores ---
   return { report, jsonData };
 }
